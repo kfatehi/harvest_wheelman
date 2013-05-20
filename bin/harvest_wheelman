@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+require 'harvest_wheelman'
+
+SETTINGS_FILE = File.expand_path(ENV['SETTINGS_FILE_PATH'] || ARGV[0] || 'settings.json')
+
+begin
+  hs = HarvestWheelman::HarvestSubmit.new(SETTINGS_FILE)
+  puts %{
+    Pay period is set from: #{hs.from}
+                        to: #{hs.to}
+    Press enter to open firefox and generate the PDF using these dates.
+    Ctrl-C to quit.
+  }
+  puts hs.drive_to_pdf if STDIN.gets
+rescue => ex
+  puts %{
+    Could not start, check your settings file.
+    Settings file: #{SETTINGS_FILE}
+    
+    Example:
+    {
+      "harvest":{
+        "site":"---",
+        "user":"---",
+        "pass":"---"
+      },
+      "pay_period":{
+        "weeks":2,            # weeks in a pay period (defaults to 2), used when only 1 date given
+        "from":"09/03/2012",  # start of pay period
+        "to":"09/16/2012"     # end of pay period
+      }
+    }
+  }
+  puts "There was a problem!\n#{ex.backtrace.join("\n")}\n\n#{ex.message}"
+end
