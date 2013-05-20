@@ -1,23 +1,6 @@
 # HarvestWheelman
 
-I use this tool to generate a PDF report from Harvest the way my company wants them for every pay period.
-
-## Example Settings File
-
-```json
-{
-  "harvest":{
-    "site":"---",
-    "user":"---",
-    "pass":"---"
-  },
-  "pay_period":{
-    "weeks":2,            # weeks in a pay period; used when only 1 date given (optional and defaults to 2)
-    "from":"09/03/2012",  # start of pay period (optional if 'to' exists)
-    "to":"09/16/2012"     # end of pay period (optional if 'from' exists)
-  }
-}
-```
+I use this tool every 2 weeks to generate a PDF timesheet report from Harvest the way my company wants them.
 
 ## Installation
 
@@ -40,6 +23,23 @@ Or install it yourself as:
 Optionally you can pass in a settings file like this:
 
 `harvest_wheelman ~/MyStuff/harvest_Wheelman.json` 
+
+## Example Settings File
+
+```json
+{
+  "harvest":{
+    "site":"---",
+    "user":"---",
+    "pass":"---"
+  },
+  "pay_period":{
+    "weeks":2,            # weeks in a pay period; used when only 1 date given (optional and defaults to 2)
+    "from":"09/03/2012",  # start of pay period (optional if 'to' exists)
+    "to":"09/16/2012"     # end of pay period (optional if 'from' exists)
+  }
+}
+```
 
 ## Contributing
 
