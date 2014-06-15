@@ -102,7 +102,7 @@ module HarvestWheelman
 
     def drive_to_pdf
       begin
-        @driver = Selenium::WebDriver.for :firefox
+        @driver = Selenium::WebDriver.for :chrome
         @base_url = "https://#{site}.harvestapp.com/"
         @driver.manage.timeouts.implicit_wait = 30
         @verification_errors = []
