@@ -1,35 +1,58 @@
 #!/usr/bin/env ruby
 require 'harvest_wheelman'
+require 'optparse'
 
-SETTINGS_FILE = File.expand_path(ENV['SETTINGS_FILE_PATH'] || ARGV[0] || 'settings.json')
+EXAMPLE = %{{
+  "harvest":{
+    "site":"---",
+    "user":"---",
+    "pass":"---"
+  }
+}}
+
+SETTINGS_HELP = %{#{EXAMPLE}
+
+Optionally include a "pay_period" block, otherwise we automatically use
+a 2 week pay period where "to" is set to the closest Sunday to today.
+
+{
+  "harvest": { ... },
+  "pay_period":{
+    "weeks":2, 
+    "from":"09/03/2012",
+    "to":"09/16/2012" 
+  }
+}}
+
+SETTINGS_FILE = File.join(File.expand_path('~'), '.harvest_wheelman')
+if !File.exists? SETTINGS_FILE
+  File.open(SETTINGS_FILE, 'w') do |f|
+    f.write EXAMPLE
+  end
+  puts "Wrote to #{SETTINGS_FILE}"
+  puts SETTINGS_HELP
+  exit(0)
+end
 
 begin
   hs = HarvestWheelman::HarvestSubmit.new(SETTINGS_FILE)
   puts %{
     Pay period is set from: #{hs.from}
                         to: #{hs.to}
-    Press enter to open firefox and generate the PDF using these dates.
+    Press enter to open chrome and generate the PDF using these dates.
     Ctrl-C to quit.
   }
   puts hs.drive_to_pdf if STDIN.gets
 rescue => ex
-  puts %{
-    Could not start, check your settings file.
-    Settings file: #{SETTINGS_FILE}
-    
-    Example:
-    {
-      "harvest":{
-        "site":"---",
-        "user":"---",
-        "pass":"---"
-      },
-      "pay_period":{
-        "weeks":2,            # weeks in a pay period (defaults to 2), used when only 1 date given
-        "from":"09/03/2012",  # start of pay period
-        "to":"09/16/2012"     # end of pay period
-      }
-    }
-  }
-  puts "There was a problem!\n#{ex.backtrace.join("\n")}\n\n#{ex.message}"
+puts <<-EOF
+Could not start, check your settings file.
+Settings file path: #{SETTINGS_FILE}
+  
+Example:
+#{SETTINGS_HELP}
+
+Error: #{ex.message}
+------------------
+#{ex.backtrace.join("\n")} 
+EOF
 end

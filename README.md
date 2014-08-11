@@ -4,42 +4,11 @@ I use this tool every 2 weeks to generate a PDF timesheet report from Harvest th
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'harvest_wheelman'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
     $ gem install harvest_wheelman
 
 ## Usage
 
 `harvest_wheelman`
-
-Optionally you can pass in a settings file like this:
-
-`harvest_wheelman ~/MyStuff/harvest_Wheelman.json` 
-
-## Example Settings File
-
-```json
-{
-  "harvest":{
-    "site":"---",
-    "user":"---",
-    "pass":"---"
-  },
-  "pay_period":{
-    "weeks":2,            # weeks in a pay period; used when only 1 date given (optional and defaults to 2)
-    "from":"09/03/2012",  # start of pay period (optional if 'to' exists)
-    "to":"09/16/2012"     # end of pay period (optional if 'from' exists)
-  }
-}
-```
 
 ## Contributing
 
